@@ -24,21 +24,27 @@ public class TemperatureService {
             targetTemp = Temperatures.getTemperatures(teacherRequest.getTargetUnitOfMeasure());
         } catch (NoSuchElementException exception) {
             // Output expected NoSuchElementExceptions.
-            log.error("error ==> ", exception);
             return GenericResponseBody.builder().response("invalid").build();
         }
         //if (getTemp )
-        var result = getTemp.convert(teacherRequest.getInputNumericalValue(), targetTemp);
-        var authoritativeAnswer = roundToTenths(result);
-        var studentResponse = roundToTenths(teacherRequest.getStudentResponse());
+        try {
+            var result = getTemp.convert(teacherRequest.getInputNumericalValue(), targetTemp);
+            var authoritativeAnswer = roundToTenths(result);
+            var studentResponse = roundToTenths(Double.parseDouble(teacherRequest.getStudentResponse()));
 
-        log.info("Teacher's temperature result ==> " + authoritativeAnswer);
-        log.info("Student temperature result ==> " + studentResponse);
+            log.info("Teacher's temperature result ==> " + authoritativeAnswer);
+            log.info("Student temperature result ==> " + studentResponse);
 
 
 
-        if (!(authoritativeAnswer == (studentResponse))) {
+            if (!(authoritativeAnswer == (studentResponse))) {
+                return GenericResponseBody.builder().response("incorrect").build();
+            }
+
+        }
+        catch (NumberFormatException ne) {
             return GenericResponseBody.builder().response("incorrect").build();
+
         }
 
         return GenericResponseBody.builder().response("correct").build();

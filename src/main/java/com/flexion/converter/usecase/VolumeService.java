@@ -28,21 +28,27 @@ public class VolumeService {
             targetVolume = Volumes.getVolumes(teacherRequest.getTargetUnitOfMeasure());
         } catch (NoSuchElementException exception) {
             // Output expected NoSuchElementExceptions.
-            log.error("error ==> ", exception);
             return GenericResponseBody.builder().response("invalid").build();
         }
         //if (getVolumeFromString )
-        var result = getVolumeFromString.convert(teacherRequest.getInputNumericalValue(), targetVolume);
-        var authoritativeAnswer = temperatureService.roundToTenths(result);
-        var studentResponse = temperatureService.roundToTenths(teacherRequest.getStudentResponse());
+        try {
+            var result = getVolumeFromString.convert(teacherRequest.getInputNumericalValue(), targetVolume);
+            var authoritativeAnswer = temperatureService.roundToTenths(result);
+            var studentResponse = temperatureService.roundToTenths(Double.parseDouble(teacherRequest.getStudentResponse()));
 
-        log.info("Teacher's volume result ==> " + authoritativeAnswer);
-        log.info("Student's volume result ==> " + studentResponse);
+            log.info("Teacher's temperature result ==> " + authoritativeAnswer);
+            log.info("Student temperature result ==> " + studentResponse);
 
 
 
-        if (!(authoritativeAnswer == (studentResponse))) {
+            if (!(authoritativeAnswer == (studentResponse))) {
+                return GenericResponseBody.builder().response("incorrect").build();
+            }
+
+        }
+        catch (NumberFormatException ne) {
             return GenericResponseBody.builder().response("incorrect").build();
+
         }
 
         return GenericResponseBody.builder().response("correct").build();

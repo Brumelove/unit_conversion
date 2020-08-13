@@ -7,6 +7,6 @@ public class TeacherRequest {
 private Double inputNumericalValue;
 private String inputUnitOfMeasure;
 private String targetUnitOfMeasure;
-private Double studentResponse;
+private String studentResponse;
 
 }
