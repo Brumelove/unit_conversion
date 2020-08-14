@@ -1,8 +1,10 @@
 package com.flexion.converter.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter @Setter
 public class TeacherRequest {
 private Double inputNumericalValue;
 private String inputUnitOfMeasure;

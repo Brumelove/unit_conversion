@@ -71,7 +71,7 @@ public enum Volumes {
 
     public static Volumes getVolumes(String volume) {
         return Stream.of(Volumes.values())
-                .filter(temperatures -> temperatures.getVolumes()
+                .filter(volumes -> volumes.getVolumes()
                         .equalsIgnoreCase(volume))
                 .findFirst()
                 .get();
