@@ -23,22 +23,6 @@ import static java.util.stream.Collectors.joining;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class GenericExceptionHandler {
 
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ConversionApiException.class)
-    public ResponseEntity<ErrorResponse> handleCarApiException(ConversionApiException conversionApiException){
-        return new ResponseEntity<>(conversionApiException.getErrorResponse(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException ex) {
-        log.error("Constraint Violation Exception ::: {}", ex.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setErrorDescription(ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(ResourceAccessException.class)
     public ResponseEntity<ErrorResponse> handleConnectionTimedOutException(ResourceAccessException ex) {
         log.error("Resource Access Exception ::: {}", ex.getMessage());
@@ -46,8 +30,6 @@ public class GenericExceptionHandler {
         errorResponse.setErrorDescription(ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-
-
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {

@@ -2,6 +2,7 @@ package com.flexion.converter.usecase;
 
 import com.flexion.converter.domain.GenericResponseBody;
 import com.flexion.converter.domain.TeacherRequest;
+import com.flexion.converter.domain.Volumes;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,7 @@ public class VolumeServiceTest {
         var invalid = GenericResponseBody.builder().response("invalid").build();
         Assertions.assertEquals(response, invalid);
     }
+
     @Test
     public void result_should_be_incorrect() {
 
@@ -40,6 +42,7 @@ public class VolumeServiceTest {
         var incorrect = GenericResponseBody.builder().response("incorrect").build();
         Assertions.assertEquals(response, incorrect);
     }
+
     @Test
     public void result_should_be_correct() {
 
@@ -53,4 +56,13 @@ public class VolumeServiceTest {
         var correct = GenericResponseBody.builder().response("correct").build();
         Assertions.assertEquals(response, correct);
     }
+
+    @Test()
+    public void numberFormatException() {
+        Assertions.assertThrows(NumberFormatException.class, () -> {
+            Volumes.TABLESPOONS.convert(Double.parseDouble("boy"), Volumes.GALLONS);
+        });
+
+    }
+
 }

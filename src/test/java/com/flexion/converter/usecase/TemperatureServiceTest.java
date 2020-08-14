@@ -2,11 +2,14 @@ package com.flexion.converter.usecase;
 
 import com.flexion.converter.domain.GenericResponseBody;
 import com.flexion.converter.domain.TeacherRequest;
+import com.flexion.converter.domain.Temperatures;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.NoSuchElementException;
 
 @SpringBootTest
 @Slf4j
@@ -52,5 +55,12 @@ public class TemperatureServiceTest {
         var response = temperatureService.effectTemperatureConversion(teacherRequest);
         var correct = GenericResponseBody.builder().response("correct").build();
         Assertions.assertEquals(response, correct);
+    }
+    @Test()
+    public void noSuchElementException(){
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            Temperatures.getTemperatures("car");
+        });
+
     }
 }
