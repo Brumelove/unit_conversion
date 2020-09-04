@@ -2,6 +2,10 @@ package com.flexion.converter.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.EnumSet;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @AllArgsConstructor
@@ -35,7 +39,7 @@ public enum Temperatures {
     },
     RANKINE("Rankine") {
         public double toKelvin(double in) {
-            return in / (5.0 / 9.0);
+            return in * (5.0 / 9.0);
         }
 
         public double fromKelvin(double inKelvin) {

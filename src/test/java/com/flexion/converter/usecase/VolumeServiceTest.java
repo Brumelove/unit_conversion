@@ -4,6 +4,7 @@ import com.flexion.converter.domain.GenericResponseBody;
 import com.flexion.converter.domain.TeacherRequest;
 import com.flexion.converter.domain.Volumes;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,42 +19,42 @@ public class VolumeServiceTest {
     @Test
     public void result_should_be_invalid() {
 
-        var teacherRequest = new TeacherRequest();
+        val teacherRequest = new TeacherRequest();
         teacherRequest.setInputNumericalValue(20.3);
         teacherRequest.setInputUnitOfMeasure("gallons");
         teacherRequest.setTargetUnitOfMeasure("kelvin");
         teacherRequest.setStudentResponse("40.6");
 
-        var response = volumeService.effectVolumeConversions(teacherRequest);
-        var invalid = GenericResponseBody.builder().response("invalid").build();
+        val response = volumeService.effectVolumeConversions(teacherRequest);
+        val invalid = GenericResponseBody.builder().response("invalid").build();
         Assertions.assertEquals(response, invalid);
     }
 
     @Test
     public void result_should_be_incorrect() {
 
-        var teacherRequest = new TeacherRequest();
+        val teacherRequest = new TeacherRequest();
         teacherRequest.setInputNumericalValue(6.5);
         teacherRequest.setInputUnitOfMeasure("gallons");
         teacherRequest.setTargetUnitOfMeasure("cups");
         teacherRequest.setStudentResponse("dog");
 
-        var response = volumeService.effectVolumeConversions(teacherRequest);
-        var incorrect = GenericResponseBody.builder().response("incorrect").build();
+        val response = volumeService.effectVolumeConversions(teacherRequest);
+        val incorrect = GenericResponseBody.builder().response("incorrect").build();
         Assertions.assertEquals(response, incorrect);
     }
 
     @Test
     public void result_should_be_correct() {
 
-        var teacherRequest = new TeacherRequest();
+        val teacherRequest = new TeacherRequest();
         teacherRequest.setInputNumericalValue(25.6);
         teacherRequest.setInputUnitOfMeasure("cups");
-        teacherRequest.setTargetUnitOfMeasure("liters");
-        teacherRequest.setStudentResponse("6.1");
+        teacherRequest.setTargetUnitOfMeasure("tablespoons");
+        teacherRequest.setStudentResponse("409.6");
 
-        var response = volumeService.effectVolumeConversions(teacherRequest);
-        var correct = GenericResponseBody.builder().response("correct").build();
+        val response = volumeService.effectVolumeConversions(teacherRequest);
+        val correct = GenericResponseBody.builder().response("correct").build();
         Assertions.assertEquals(response, correct);
     }
 

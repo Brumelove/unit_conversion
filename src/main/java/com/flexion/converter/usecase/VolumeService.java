@@ -6,9 +6,13 @@ import com.flexion.converter.domain.Temperatures;
 import com.flexion.converter.domain.Volumes;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.stereotype.Service;
 
+import java.util.EnumSet;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -21,23 +25,20 @@ public class VolumeService {
 
 
         try {
-            // Output list via forEach method and Logging::log method reference.
             getVolumeFromString = Volumes.getVolumes(teacherRequest.getInputUnitOfMeasure());
 
 
             targetVolume = Volumes.getVolumes(teacherRequest.getTargetUnitOfMeasure());
         } catch (NoSuchElementException exception) {
-            // Output expected NoSuchElementExceptions.
             return GenericResponseBody.builder().response("invalid").build();
         }
-        //if (getVolumeFromString )
         try {
-            var result = getVolumeFromString.convert(teacherRequest.getInputNumericalValue(), targetVolume);
-            var authoritativeAnswer = temperatureService.roundToTenths(result);
-            var studentResponse = temperatureService.roundToTenths(Double.parseDouble(teacherRequest.getStudentResponse()));
+            val result = getVolumeFromString.convert(teacherRequest.getInputNumericalValue(), targetVolume);
+            val authoritativeAnswer = temperatureService.roundToTenths(result);
+            val studentResponse = temperatureService.roundToTenths(Double.parseDouble(teacherRequest.getStudentResponse()));
 
-            log.info("Teacher's temperature result ==> " + authoritativeAnswer);
-            log.info("Student temperature result ==> " + studentResponse);
+            log.info("Teacher's volume result ==> " + authoritativeAnswer);
+            log.info("Student volume result ==> " + studentResponse);
 
 
 
@@ -53,6 +54,9 @@ public class VolumeService {
 
         return GenericResponseBody.builder().response("correct").build();
 
+    }
+    public  List<String> getAllVolumes() {
+        return EnumSet.allOf(Volumes.class).stream().map(Enum::name).collect(Collectors.toList());
     }
 
 }
